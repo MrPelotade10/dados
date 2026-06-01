@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto de Análise Exploratória de Dados com Vega-Lite</title>
+    <title>Dashboard | Análise Exploratória de Vendas de Jogos</title>
     <link rel="stylesheet" href="style.css">
     
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
@@ -13,116 +13,150 @@
 <body>
 
     <header>
-        <h1>Projeto de Análise Exploratória de Dados com Vega-Lite</h1>
-        <p class="subtitle">Análise de Vendas de Jogos Eletrônicos usando Python, Pandas e Vega-Lite</p>
+        <div class="header-content">
+            <h1>Análise Exploratória de Dados de Jogos Eletrônicos</h1>
+            <p class="subtitle">Análise de dados setoriais e comerciais utilizando Python, Pandas e Vega-Lite</p>
+        </div>
     </header>
 
     <main class="container">
         
-        <section class="intro">
-            <h2>Introdução</h2>
-            <p>Este projeto tem como objetivo realizar uma análise exploratória de dados sobre vendas de jogos eletrônicos utilizando Python, Pandas e Vega-Lite. Inicialmente, os dados foram tratados utilizando a biblioteca Pandas, onde foram realizadas etapas de limpeza, verificação de inconsistências e preparação da base para análise.</p>
-            <p>A base utilizada contém informações sobre milhares de jogos lançados para diversas plataformas ao longo dos anos. Os dados incluem informações sobre nome do jogo, plataforma, gênero, empresa publicadora e vendas em diferentes regiões do mundo.</p>
-            <p>Após o tratamento, os dados foram disponibilizados em formato CSV e armazenados localmente como <code>dados_limpos.csv</code> para a geração das visualizações interativas através do Vega-Lite.</p>
+        <section class="intro card-panel">
+            <h2>Introdução ao Projeto</h2>
+            <p>Este projeto apresenta uma análise exploratória de dados sobre a história e o desempenho comercial do mercado de jogos eletrônicos. Inicialmente, o ecossistema de dados passou por um pipeline de tratamento utilizando a biblioteca <strong>Pandas (Python)</strong>, onde executou-se a limpeza de registros, a verificação de integridade e a tipagem das variáveis.</p>
+            <p>A base consolidada reúne o histórico de lançamentos para diversas plataformas industriais ao longo das últimas décadas. Os resultados foram exportados para o arquivo <code>dados_limpos.csv</code> e são consumidos em tempo real abaixo através do mecanismo interativo do <strong>Vega-Lite</strong>.</p>
         </section>
 
-        <section class="columns-info">
-            <h2>Descrição das Colunas</h2>
-            <ul>
-                <li><strong>Rank:</strong> Posição do jogo no ranking geral de vendas.</li>
-                <li><strong>Name:</strong> Nome do jogo.</li>
-                <li><strong>Platform:</strong> Plataforma em que o jogo foi lançado.</li>
-                <li><strong>Year:</strong> Ano de lançamento do jogo.</li>
-                <li><strong>Genre:</strong> Gênero do jogo.</li>
-                <li><strong>Publisher:</strong> Empresa responsável pela publicação do jogo.</li>
-                <li><strong>NA_Sales:</strong> Vendas realizadas na América do Norte (em milhões de unidades).</li>
-                <li><strong>EU_Sales:</strong> Vendas realizadas na Europa (em milhões de unidades).</li>
-                <li><strong>JP_Sales:</strong> Vendas realizadas no Japão (em milhões de unidades).</li>
-                <li><strong>Other_Sales:</strong> Vendas realizadas em outras regiões do mundo (em milhões de unidades).</li>
-                <li><strong>Global_Sales:</strong> Total de vendas globais do jogo (em milhões de unidades).</li>
-            </ul>
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-title">Volume de Títulos</span>
+                <span class="metric-value">16.291</span>
+                <span class="metric-desc">Jogos catalogados</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-title">Dimensões</span>
+                <span class="metric-value">11</span>
+                <span class="metric-desc">Variáveis por registro</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-title">Série Temporal</span>
+                <span class="metric-value">1980-2020</span>
+                <span class="metric-desc">Período analisado</span>
+            </div>
         </section>
 
-        <hr>
-
-        <section class="chart-section">
-            <h2>Visualização 1 – Quantidade de Jogos por Plataforma</h2>
-            <p class="meta"><strong>Objetivo:</strong> Identificar quais plataformas receberam mais lançamentos.</p>
-            <div id="vis1" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> O gráfico permite visualizar quais consoles tiveram maior quantidade de jogos lançados.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> Plataformas como PS2, DS e Wii apresentam um número elevado de títulos, demonstrando sua popularidade no mercado.</p>
+        <section class="columns-info card-panel">
+            <h2>Estrutura das Variáveis</h2>
+            <div class="dictionary-grid">
+                <div><strong>Rank:</strong> Posição do título no ordenamento global de receita.</div>
+                <div><strong>Name:</strong> Nome comercial do jogo.</div>
+                <div><strong>Platform:</strong> Console ou hardware do lançamento.</div>
+                <div><strong>Year:</strong> Ano de lançamento no mercado.</div>
+                <div><strong>Genre:</strong> Categoria/Gênero conceitual do jogo.</div>
+                <div><strong>Publisher:</strong> Empresa distribuidora/publicadora.</div>
+                <div><strong>NA_Sales:</strong> Vendas na América do Norte (em milhões).</div>
+                <div><strong>EU_Sales:</strong> Vendas na Europa (em milhões).</div>
+                <div><strong>JP_Sales:</strong> Vendas no Japão (em milhões).</div>
+                <div><strong>Other_Sales:</strong> Vendas no resto do mundo (em milhões).</div>
+                <div><strong>Global_Sales:</strong> Receita global consolidada (em milhões).</div>
+            </div>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 2 – Distribuição dos Jogos por Gênero</h2>
-            <p class="meta"><strong>Objetivo:</strong> Verificar a participação de cada gênero.</p>
-            <div id="vis2" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Mostra quais gêneros possuem maior quantidade de jogos cadastrados.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> Os gêneros Action e Sports aparecem entre os mais representativos da base.</p>
+        <h2 class="section-divider-title">Visualizações Analíticas</h2>
+
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 1 – Volume de Jogos por Plataforma</h3>
+                <p class="meta"><strong>Objetivo:</strong> Identificar quais hardwares atraíram o maior ecossistema de desenvolvedores.</p>
+            </div>
+            <div id="vis1" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Distribuição de contagem absoluta de títulos por console cadastrado na base.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> Plataformas de extrema popularidade como PS2 e DS dominam em quantidade de títulos desenvolvidos.</p>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 3 – Evolução dos Lançamentos ao Longo dos Anos</h2>
-            <p class="meta"><strong>Objetivo:</strong> Analisar a quantidade de lançamentos por ano.</p>
-            <div id="vis3" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Permite identificar períodos de crescimento e redução da indústria.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> Houve forte crescimento da indústria entre os anos 1995 e 2010.</p>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 2 – Market Share por Gênero</h3>
+                <p class="meta"><strong>Objetivo:</strong> Avaliar a fragmentação e preferência das categorias na indústria.</p>
+            </div>
+            <div id="vis2" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Gráfico de setores exibindo a participação volumétrica de cada gênero.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> Os gêneros de Ação (Action) e Esportes (Sports) concentram a maior fatia do mercado produtivo.</p>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 4 – Vendas Globais por Plataforma</h2>
-            <p class="meta"><strong>Objetivo:</strong> Comparar o desempenho comercial das plataformas.</p>
-            <div id="vis4" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Exibe o total de vendas geradas por cada console.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> Algumas plataformas possuem menor quantidade de jogos, porém maior volume de vendas.</p>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 3 – Linha Histórica de Lançamentos</h3>
+                <p class="meta"><strong>Objetivo:</strong> Mapear o ritmo de crescimento e maturação temporal da indústria.</p>
+            </div>
+            <div id="vis3" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Série temporal indicando o volume anual de novos títulos introduzidos no mercado.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> A indústria experimentou uma aceleração exponencial a partir de 1995, atingindo seu pico histórico por volta de 2008 a 2010.</p>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 5 – Vendas Globais por Gênero</h2>
-            <p class="meta"><strong>Objetivo:</strong> Analisar os gêneros mais lucrativos.</p>
-            <div id="vis5" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Compara o total de vendas obtidas por cada categoria.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> Jogos de ação e esportes estão entre os mais vendidos mundialmente.</p>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 4 – Receita Comercial por Plataforma</h3>
+                <p class="meta"><strong>Objetivo:</strong> Comparar o retorno financeiro acumulado gerado pelos consoles.</p>
+            </div>
+            <div id="vis4" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Classificação horizontal baseada na soma total de vendas globais.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> O ecossistema PlayStation (PS2 e PS3) junto ao ecossistema Xbox 360 e Wii lideram a receita histórica mundial.</p>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 6 – Top 10 Jogos Mais Vendidos</h2>
-            <p class="meta"><strong>Objetivo:</strong> Identificar os jogos de maior sucesso comercial.</p>
-            <div id="vis6" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Mostra os títulos que alcançaram as maiores vendas globais.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> Poucos jogos concentram grande parte das vendas totais da indústria.</p>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 5 – Faturamento Total por Gênero</h3>
+                <p class="meta"><strong>Objetivo:</strong> Descobrir quais categorias são mais eficientes em gerar receita.</p>
+            </div>
+            <div id="vis5" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Faturamento global agregado por macrocategoria de jogabilidade.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> Gêneros baseados em Ação, Esportes e Tiro (Shooter) geram o maior volume financeiro da indústria.</p>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 7 – Relação entre Vendas na América do Norte e Europa</h2>
-            <p class="meta"><strong>Objetivo:</strong> Analisar a correlação entre os dois mercados.</p>
-            <div id="vis7" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Verifica se jogos populares em uma região também apresentam sucesso em outra.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> Existe uma tendência positiva entre as vendas norte-americanas e europeias.</p>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 6 – Top 10 Jogos Mais Vendidos da História</h3>
+                <p class="meta"><strong>Objetivo:</strong> Isolar e analisar os maiores fenômenos de vendas individuais.</p>
+            </div>
+            <div id="vis6" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Ranking dos 10 maiores produtos filtrados dinamicamente via backend do Vega-Lite.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> Títulos exclusivos e que acompanham consoles no lançamento (como Wii Sports) atingem patamares isolados de receita.</p>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 8 – Participação das Regiões nas Vendas Globais</h2>
-            <p class="meta"><strong>Objetivo:</strong> Comparar a contribuição de cada região.</p>
-            <div id="vis8" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Mostra a porcentagem das vendas realizadas em cada mercado através da soma total.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> A América do Norte representa a maior parcela das vendas globais.</p>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 7 – Correlação: América do Norte vs Europa</h3>
+                <p class="meta"><strong>Objetivo:</strong> Investigar o alinhamento de comportamento de consumo entre os dois maiores mercados ocidentais.</p>
+            </div>
+            <div id="vis7" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Gráfico de dispersão cruzando as métricas de faturamento regional (NA vs EU).</p>
+            <p class="conclusion"><strong>Conclusão:</strong> Nota-se uma forte correlação linear positiva: sucessos comerciais na América do Norte replicam-se quase que diretamente na Europa.</p>
         </section>
 
-        <section class="chart-section">
-            <h2>Visualização 9 – Distribuição das Vendas Globais</h2>
-            <p class="meta"><strong>Objetivo:</strong> Analisar como as vendas estão distribuídas.</p>
-            <div id="vis9" class="chart"></div>
-            <p class="interpretation"><strong>Interpretação:</strong> Permite identificar concentração de vendas e possíveis outliers através de um histograma.</p>
-            <p class="conclusion"><strong>Conclusão:</strong> A maioria dos jogos possui vendas modestas, enquanto poucos títulos alcançam números extremamente elevados.</p>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 8 – Divisão Geográfica do Faturamento Global</h3>
+                <p class="meta"><strong>Objetivo:</strong> Quantificar a representatividade monetária de cada macro-região macroeconômica.</p>
+            </div>
+            <div id="vis8" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Proporção das vendas totais dividida entre NA, EU, JP e Demais Regiões.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> A América do Norte consolida-se como o polo consumidor majoritário do mercado global, seguida de perto pelo mercado Europeu.</p>
         </section>
 
-        <hr>
+        <section class="chart-section card-panel">
+            <div class="chart-header">
+                <h3>Visualização 9 – Curva de Distribuição de Vendas (Histograma)</h3>
+                <p class="meta"><strong>Objetivo:</strong> Avaliar o perfil de concentração de receita por produto na indústria.</p>
+            </div>
+            <div id="vis9" class="chart-container"></div>
+            <p class="interpretation"><strong>Interpretação:</strong> Histograma de frequência agrupando jogos pelo volume de vendas.</p>
+            <p class="conclusion"><strong>Conclusão:</strong> A indústria opera sob a regra de potência/cauda longa: a esmagadora maioria dos jogos vende menos de 1 milhão de cópias, enquanto uma minoria seleta de sucessos (outliers) carrega o faturamento do setor.</p>
+        </section>
 
-        <section class="general-conclusion">
-            <h2>Conclusão Geral</h2>
-            <p>A análise exploratória permitiu compreender melhor o comportamento do mercado de jogos eletrônicos. As visualizações desenvolvidas com Vega-Lite mostraram tendências relevantes relacionadas às plataformas mais populares, gêneros mais vendidos e distribuição das vendas entre diferentes regiões do mundo.</p>
-            <p>O uso do Pandas possibilitou a preparação adequada dos dados, enquanto o Vega-Lite facilitou a construção de gráficos claros e intuitivos, contribuindo para uma interpretação eficiente dos resultados.</p>
+        <section class="general-conclusion card-panel">
+            <h2>Conclusão Consolidada</h2>
+            <p>A execução desta Análise Exploratória de Dados (EDA) forneceu inteligência analítica substancial sobre a dinâmica econômica dos jogos eletrônicos. Através da união entre o tratamento robusto do Pandas e a camada analítica visual do Vega-Lite, evidenciou-se a assimetria do mercado comercial, a dominância de gêneros de alto apelo interativo e a dependência de plataformas consolidadas para a atração de receita.</p>
         </section>
 
     </main>
