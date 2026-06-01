@@ -22,8 +22,5 @@ Analisar dados de vendas de jogos eletrônicos utilizando técnicas de visualiza
 
 ## Link do Notebook ObservableHQ
 
-Adicionar link aqui.
+https://observablehq.com/d/18d56773f8cdb92a
 
-## Link do Site
-
-Adicionar link do GitHub Pages aqui.
