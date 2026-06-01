@@ -1,114 +1,161 @@
-d3.csv("dados_limpos.csv").then(function(data){
+// Arquivo de dados padrão mapeado na raiz
+const csvData = { url: "dados_limpos.csv" };
 
-data.forEach(d=>{
+// Opções padrão de configuração para os gráficos ficarem responsivos e bonitos
+const embedOptions = { actions: false };
 
-d.Global_Sales=+d.Global_Sales;
-d.NA_Sales=+d.NA_Sales;
-d.EU_Sales=+d.EU_Sales;
-d.JP_Sales=+d.JP_Sales;
-d.Other_Sales=+d.Other_Sales;
-d.Year=+d.Year;
+// VISUALIZAÇÃO 1 - Jogos por Plataforma
+const spec1 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  width: "container",
+  height: 350,
+  mark: "bar",
+  encoding: {
+    x: { field: "Platform", type: "nominal", sort: "-y", title: "Plataforma" },
+    y: { aggregate: "count", type: "quantitative", title: "Quantidade de Jogos" },
+    color: { field: "Platform", type: "nominal", legend: null }
+  }
+};
+vegaEmbed('#vis1', spec1, embedOptions);
 
-});
+// VISUALIZAÇÃO 2 - Distribuição por Gênero
+const spec2 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  width: 350,
+  height: 350,
+  mark: "arc",
+  encoding: {
+    theta: { aggregate: "count", type: "quantitative" },
+    color: { field: "Genre", type: "nominal", title: "Gênero" }
+  }
+};
+vegaEmbed('#vis2', spec2, embedOptions);
 
-document.getElementById("games").innerText=data.length;
+// VISUALIZAÇÃO 3 - Evolução por Ano
+const spec3 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  width: "container",
+  height: 350,
+  mark: "line",
+  encoding: {
+    x: { field: "Year", type: "quantitative", title: "Ano de Lançamento", axis: { format: "d" } },
+    y: { aggregate: "count", type: "quantitative", title: "Quantidade de Lançamentos" }
+  }
+};
+vegaEmbed('#vis3', spec3, embedOptions);
 
-document.getElementById("platforms").innerText=
-new Set(data.map(d=>d.Platform)).size;
+// VISUALIZAÇÃO 4 - Vendas Globais por Plataforma
+const spec4 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  width: "container",
+  height: 450,
+  mark: "bar",
+  encoding: {
+    y: { field: "Platform", type: "nominal", sort: "-x", title: "Plataforma" },
+    x: { field: "Global_Sales", aggregate: "sum", type: "quantitative", title: "Soma de Vendas Globais (Milhões)" },
+    color: { field: "Platform", type: "nominal", legend: null }
+  }
+};
+vegaEmbed('#vis4', spec4, embedOptions);
 
-document.getElementById("genres").innerText=
-new Set(data.map(d=>d.Genre)).size;
+// VISUALIZAÇÃO 5 - Vendas Globais por Gênero
+const spec5 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  width: "container",
+  height: 350,
+  mark: "bar",
+  encoding: {
+    x: { field: "Genre", type: "nominal", sort: "-y", title: "Gênero" },
+    y: { field: "Global_Sales", aggregate: "sum", type: "quantitative", title: "Vendas Globais (Milhões)" },
+    color: { field: "Genre", type: "nominal", legend: null }
+  }
+};
+vegaEmbed('#vis5', spec5, embedOptions);
 
-let totalSales=
-data.reduce((s,d)=>s+d.Global_Sales,0);
+// VISUALIZAÇÃO 6 - Top 10 Jogos Mais Vendidos (Filtrado via transform do Vega-Lite)
+const spec6 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  transform: [
+    {
+      window: [{ op: "rank", as: "rank" }],
+      sort: [{ field: "Global_Sales", order: "descending" }]
+    },
+    { filter: "datum.rank <= 10" }
+  ],
+  width: "container",
+  height: 400,
+  mark: "bar",
+  encoding: {
+    y: { field: "Name", type: "nominal", sort: "-x", title: "Nome do Jogo" },
+    x: { field: "Global_Sales", type: "quantitative", title: "Vendas Globais (Milhões)" },
+    color: { field: "Name", type: "nominal", legend: null }
+  }
+};
+vegaEmbed('#vis6', spec6, embedOptions);
 
-document.getElementById("sales").innerText=
-totalSales.toFixed(0);
+// VISUALIZAÇÃO 7 - América do Norte vs Europa (Dispersão)
+const spec7 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  width: "container",
+  height: 400,
+  mark: "point",
+  encoding: {
+    x: { field: "NA_Sales", type: "quantitative", title: "Vendas na América do Norte (Milhões)" },
+    y: { field: "EU_Sales", type: "quantitative", title: "Vendas na Europa (Milhões)" },
+    tooltip: [
+      { field: "Name", type: "nominal", title: "Jogo" },
+      { field: "Platform", type: "nominal", title: "Plataforma" },
+      { field: "Global_Sales", type: "quantitative", title: "Total Global" }
+    ]
+  }
+};
+vegaEmbed('#vis7', spec7, embedOptions);
 
-let top10=[...data]
-.sort((a,b)=>b.Global_Sales-a.Global_Sales)
-.slice(0,10);
+// VISUALIZAÇÃO 8 - Participação Regional (Transform Fold para agregar colunas)
+const spec8 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  transform: [
+    {
+      fold: ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"],
+      as: ["Regiao", "Vendas"]
+    }
+  ],
+  width: 350,
+  height: 350,
+  mark: "arc",
+  encoding: {
+    theta: { field: "Vendas", aggregate: "sum", type: "quantitative" },
+    color: {
+      field: "Regiao",
+      type: "nominal",
+      title: "Região do Mercado",
+      scale: {
+        domain: ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"],
+        range: ["#4c78a8", "#f58518", "#e15759", "#76b7b2"]
+      }
+    }
+  }
+};
+vegaEmbed('#vis8', spec8, embedOptions);
 
-Plotly.newPlot("grafico1",[{
-x:top10.map(d=>d.Global_Sales),
-y:top10.map(d=>d.Name),
-type:"bar",
-orientation:"h"
-}]);
-
-let genero={};
-
-data.forEach(d=>{
-genero[d.Genre]=(genero[d.Genre]||0)+d.Global_Sales;
-});
-
-Plotly.newPlot("grafico2",[{
-labels:Object.keys(genero),
-values:Object.values(genero),
-type:"pie"
-}]);
-
-let plataforma={};
-
-data.forEach(d=>{
-plataforma[d.Platform]=(plataforma[d.Platform]||0)+d.Global_Sales;
-});
-
-let topPlat=
-Object.entries(plataforma)
-.sort((a,b)=>b[1]-a[1])
-.slice(0,10);
-
-Plotly.newPlot("grafico3",[{
-x:topPlat.map(x=>x[0]),
-y:topPlat.map(x=>x[1]),
-type:"bar"
-}]);
-
-let anos={};
-
-data.forEach(d=>{
-
-if(!isNaN(d.Year)){
-
-anos[d.Year]=(anos[d.Year]||0)+d.Global_Sales;
-
-}
-
-});
-
-let anosOrd=
-Object.entries(anos)
-.sort((a,b)=>a[0]-b[0]);
-
-Plotly.newPlot("grafico4",[{
-x:anosOrd.map(x=>x[0]),
-y:anosOrd.map(x=>x[1]),
-mode:"lines+markers"
-}]);
-
-let regioes=[
-
-data.reduce((s,d)=>s+d.NA_Sales,0),
-data.reduce((s,d)=>s+d.EU_Sales,0),
-data.reduce((s,d)=>s+d.JP_Sales,0),
-data.reduce((s,d)=>s+d.Other_Sales,0)
-
-];
-
-Plotly.newPlot("grafico5",[{
-
-labels:[
-"América do Norte",
-"Europa",
-"Japão",
-"Outros"
-],
-
-values:regioes,
-
-type:"pie"
-
-}]);
-
-});
+// VISUALIZAÇÃO 9 - Histograma de Distribuição Global
+const spec9 = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  data: csvData,
+  width: "container",
+  height: 350,
+  mark: "bar",
+  encoding: {
+    x: { field: "Global_Sales", type: "quantitative", bin: { maxbins: 40 }, title: "Vendas Globais (Milhões)" },
+    y: { aggregate: "count", type: "quantitative", title: "Quantidade de Jogos (Frequência)" }
+  }
+};
+vegaEmbed('#vis9', spec9, embedOptions);
