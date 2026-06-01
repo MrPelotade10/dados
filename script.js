@@ -28,6 +28,7 @@ const spec2 = {
     { joinaggregate: [{ op: "sum", field: "total_jogos", as: "grand_total" }] },
     { calculate: "datum.total_jogos / datum.grand_total", as: "porcentagem" }
   ],
+  mark: { type: "arc", innerRadius: 60, stroke: "#1e293b" },
   encoding: {
     theta: { field: "total_jogos", type: "quantitative" },
     color: { field: "Genre", type: "nominal", title: "Gêneros", scale: { scheme: "tableau20" } },
@@ -36,16 +37,7 @@ const spec2 = {
       { field: "total_jogos", type: "quantitative", title: "Qtd de Jogos" },
       { field: "porcentagem", type: "quantitative", title: "Participação", format: ".1%" }
     ]
-  },
-  layer: [
-    { mark: { type: "arc", innerRadius: 60, stroke: "#1e293b" } },
-    {
-      mark: { type: "text", radius: 90, fill: "white", fontSize: 10 },
-      encoding: {
-        text: { condition: { test: "datum.porcentagem > 0.05", field: "porcentagem", type: "quantitative", format: ".1%" }, value: "" }
-      }
-    }
-  ]
+  }
 };
 vegaEmbed('#vis2', spec2, vegaConfig);
 
@@ -152,18 +144,25 @@ const spec8 = {
     { fold: ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"], as: ["Regiao", "Vendas"] },
     { aggregate: [{ op: "sum", field: "Vendas", as: "vendas_regiao" }], groupby: ["Regiao"] },
     { joinaggregate: [{ op: "sum", field: "vendas_regiao", as: "vendas_totais" }] },
-    { calculate: "datum.vendas_regiao / datum.vendas_totais", as: "porcentagem" }
+    { calculate: "datum.vendas_regiao / datum.vendas_totais", as: "porcentagem" },
+    { calculate: "datum.Regiao + ' (' + format(datum.porcentagem, '.1%') + ')'", as: "legenda_customizada" }
   ],
   width: 400,
   height: 320,
+  mark: { type: "arc", outerRadius: 120, stroke: "#1e293b" },
   encoding: {
     theta: { field: "vendas_regiao", type: "quantitative" },
     color: {
-      field: "Regiao",
+      field: "legenda_customizada",
       type: "nominal",
-      title: "Zonas Geográficas",
+      title: "Zonas Geográficas (% Global)",
       scale: {
-        domain: ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"],
+        domain: [
+          "NA_Sales (49.1%)",
+          "EU_Sales (27.3%)",
+          "JP_Sales (14.6%)",
+          "Other_Sales (9.0%)"
+        ],
         range: ["#6366f1", "#06b6d4", "#f43f5e", "#10b981"]
       }
     },
@@ -172,16 +171,7 @@ const spec8 = {
       { field: "vendas_regiao", type: "quantitative", title: "Total Vendas", format: ".2f" },
       { field: "porcentagem", type: "quantitative", title: "Porcentagem", format: ".1%" }
     ]
-  },
-  layer: [
-    { mark: { type: "arc", outerRadius: 120, stroke: "#1e293b" } },
-    {
-      mark: { type: "text", radius: 140, fill: "white", fontSize: 11 },
-      encoding: {
-        text: { field: "porcentagem", type: "quantitative", format: ".1%" }
-      }
-    }
-  ]
+  }
 };
 vegaEmbed('#vis8', spec8, vegaConfig);
 
