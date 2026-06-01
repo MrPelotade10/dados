@@ -15,10 +15,6 @@ Analisar dados de vendas de jogos eletrônicos utilizando técnicas de visualiza
 ## Integrantes
 
 - Julio Henrique Aires
-- Integrante 2
-- Integrante 3
-- Integrante 4
-- Integrante 5
 
 ## Link do Notebook ObservableHQ
 
