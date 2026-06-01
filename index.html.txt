@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard de Vendas de Videogames</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="hero">
+
+<h1>🎮 Dashboard de Vendas de Videogames</h1>
+
+<p>
+Análise Exploratória de Dados utilizando informações de vendas globais de jogos eletrônicos.
+</p>
+
+<a href="#dashboard" class="btn">
+Explorar Dados
+</a>
+
+</div>
+
+</header>
+
+<nav>
+
+<a href="#sobre">Sobre</a>
+<a href="#dashboard">Dashboard</a>
+<a href="#analises">Análises</a>
+<a href="#conclusao">Conclusão</a>
+
+</nav>
+
+<section id="sobre">
+
+<h2>📖 Sobre o Projeto</h2>
+
+<p>
+
+Este projeto apresenta uma análise dos dados históricos de vendas de videogames em diversas regiões do mundo.
+
+Foram analisadas plataformas, gêneros, publicadoras e desempenho global de mercado.
+
+</p>
+
+</section>
+
+<section id="dashboard">
+
+<h2>📊 Indicadores Gerais</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3 id="games">-</h3>
+<p>Jogos</p>
+</div>
+
+<div class="card">
+<h3 id="platforms">-</h3>
+<p>Plataformas</p>
+</div>
+
+<div class="card">
+<h3 id="genres">-</h3>
+<p>Gêneros</p>
+</div>
+
+<div class="card">
+<h3 id="sales">-</h3>
+<p>Milhões de cópias</p>
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="grafico">
+<h2>🏆 Top 10 Jogos Mais Vendidos</h2>
+<div id="grafico1"></div>
+</div>
+
+<div class="grafico">
+<h2>🎯 Vendas por Gênero</h2>
+<div id="grafico2"></div>
+</div>
+
+<div class="grafico">
+<h2>🕹️ Plataformas Mais Vendidas</h2>
+<div id="grafico3"></div>
+</div>
+
+<div class="grafico">
+<h2>📈 Evolução das Vendas por Ano</h2>
+<div id="grafico4"></div>
+</div>
+
+<div class="grafico">
+<h2>🌎 Distribuição Regional</h2>
+<div id="grafico5"></div>
+</div>
+
+</section>
+
+<section id="analises">
+
+<h2>🔍 Principais Descobertas</h2>
+
+<ul>
+<li>Os jogos da Nintendo aparecem entre os maiores sucessos comerciais.</li>
+<li>Action, Sports e Shooter dominam o mercado.</li>
+<li>PS2, Wii e Xbox 360 figuram entre as plataformas mais populares.</li>
+<li>América do Norte e Europa representam grande parte das vendas globais.</li>
+</ul>
+
+</section>
+
+<section id="conclusao">
+
+<h2>📝 Conclusão</h2>
+
+<p>
+
+A análise demonstrou o crescimento da indústria de jogos digitais ao longo dos anos e evidenciou a influência das principais plataformas e gêneros nas vendas mundiais.
+
+</p>
+
+<p>
+
+O uso da análise exploratória permitiu identificar padrões importantes para compreender o comportamento do mercado de videogames.
+
+</p>
+
+</section>
+
+<footer>
+
+Desenvolvido para a disciplina de Análise de Dados • 2026
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
