@@ -23,15 +23,29 @@ const spec2 = {
   data: csvSource,
   width: 400,
   height: 320,
-  mark: { type: "arc", innerRadius: 60, stroke: "#1e293b" },
+  transform: [
+    { aggregate: [{ op: "count", as: "total_jogos" }], groupby: ["Genre"] },
+    { joinaggregate: [{ op: "sum", field: "total_jogos", as: "grand_total" }] },
+    { calculate: "datum.total_jogos / datum.grand_total", as: "porcentagem" }
+  ],
   encoding: {
-    theta: { aggregate: "count", type: "quantitative" },
+    theta: { field: "total_jogos", type: "quantitative" },
     color: { field: "Genre", type: "nominal", title: "Gêneros", scale: { scheme: "tableau20" } },
     tooltip: [
       { field: "Genre", type: "nominal", title: "Gênero" },
-      { aggregate: "count", type: "quantitative", title: "Qtd de Jogos" }
+      { field: "total_jogos", type: "quantitative", title: "Qtd de Jogos" },
+      { field: "porcentagem", type: "quantitative", title: "Participação", format: ".1%" }
     ]
-  }
+  },
+  layer: [
+    { mark: { type: "arc", innerRadius: 60, stroke: "#1e293b" } },
+    {
+      mark: { type: "text", radius: 90, fill: "white", fontSize: 10 },
+      encoding: {
+        text: { condition: { test: "datum.porcentagem > 0.05", field: "porcentagem", type: "quantitative", format: ".1%" }, value: "" }
+      }
+    }
+  ]
 };
 vegaEmbed('#vis2', spec2, vegaConfig);
 
@@ -40,34 +54,15 @@ const spec3 = {
   data: csvSource,
   width: 750,
   height: 320,
+  mark: { type: "line", point: { size: 40, filled: true }, color: "#38bdf8" },
   encoding: {
-    x: { field: "Year", type: "quantitative", title: "Ano", axis: { format: "d" } }
-  },
-  layer: [
-    {
-      mark: { type: "line", point: { size: 40, filled: true }, color: "#38bdf8" },
-      encoding: {
-        y: { aggregate: "count", type: "quantitative", title: "Volume de Lançamentos" },
-        tooltip: [
-          { field: "Year", type: "quantitative", title: "Ano", format: "d" },
-          { aggregate: "count", type: "quantitative", title: "Lançamentos" }
-        ]
-      }
-    },
-    {
-      params: [{
-        name: "hover",
-        select: { type: "point", encodings: ["x"], on: "pointerover", nearest: true }
-      }],
-      mark: "rule",
-      encoding: {
-        color: {
-          condition: { param: "hover", empty: false, value: "rgba(255,255,255,0.2)" },
-          value: "transparent"
-        }
-      }
-    }
-  ]
+    x: { field: "Year", type: "quantitative", title: "Ano", axis: { format: "d" } },
+    y: { aggregate: "count", type: "quantitative", title: "Volume de Lançamentos" },
+    tooltip: [
+      { field: "Year", type: "quantitative", title: "Ano", format: "d" },
+      { aggregate: "count", type: "quantitative", title: "Lançamentos" }
+    ]
+  }
 };
 vegaEmbed('#vis3', spec3, vegaConfig);
 
@@ -154,13 +149,15 @@ const spec8 = {
   $schema: "https://vega.github.io/schema/vega-lite/v5.json",
   data: csvSource,
   transform: [
-    { fold: ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"], as: ["Regiao", "Vendas"] }
+    { fold: ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"], as: ["Regiao", "Vendas"] },
+    { aggregate: [{ op: "sum", field: "Vendas", as: "vendas_regiao" }], groupby: ["Regiao"] },
+    { joinaggregate: [{ op: "sum", field: "vendas_regiao", as: "vendas_totais" }] },
+    { calculate: "datum.vendas_regiao / datum.vendas_totais", as: "porcentagem" }
   ],
   width: 400,
   height: 320,
-  mark: { type: "arc", outerRadius: 120, stroke: "#1e293b" },
   encoding: {
-    theta: { field: "Vendas", aggregate: "sum", type: "quantitative" },
+    theta: { field: "vendas_regiao", type: "quantitative" },
     color: {
       field: "Regiao",
       type: "nominal",
@@ -172,9 +169,19 @@ const spec8 = {
     },
     tooltip: [
       { field: "Regiao", type: "nominal", title: "Região" },
-      { field: "Vendas", aggregate: "sum", type: "quantitative", title: "Total de Vendas", format: "$.2f" }
+      { field: "vendas_regiao", type: "quantitative", title: "Total Vendas", format: ".2f" },
+      { field: "porcentagem", type: "quantitative", title: "Porcentagem", format: ".1%" }
     ]
-  }
+  },
+  layer: [
+    { mark: { type: "arc", outerRadius: 120, stroke: "#1e293b" } },
+    {
+      mark: { type: "text", radius: 140, fill: "white", fontSize: 11 },
+      encoding: {
+        text: { field: "porcentagem", type: "quantitative", format: ".1%" }
+      }
+    }
+  ]
 };
 vegaEmbed('#vis8', spec8, vegaConfig);
 
