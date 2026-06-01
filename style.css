@@ -1,92 +1,152 @@
+:root {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --primary: #2563eb;
+    --border: #e2e8f0;
+    --success-bg: #f0fdf4;
+    --success-text: #166534;
+    --success-border: #bbf7d0;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #333;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
     line-height: 1.6;
-    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #1e293b;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: #ffffff;
-    padding: 40px 20px;
+    padding: 50px 20px;
     text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 header h1 {
     margin: 0;
-    font-size: 2.2rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
 }
 
 .subtitle {
-    margin: 10px 0 0 0;
+    margin-top: 12px;
     color: #94a3b8;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    font-weight: 400;
 }
 
 .container {
-    max-width: 900px;
-    margin: 30px auto;
+    max-width: 1000px;
+    margin: 40px auto;
     padding: 0 20px;
 }
 
 section {
-    background: #ffffff;
-    padding: 25px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background: var(--bg-card);
+    padding: 35px;
+    margin-bottom: 35px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.03);
 }
 
 h2 {
     color: #1e293b;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 8px;
+    font-size: 1.5rem;
+    font-weight: 700;
     margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
 }
 
-ul {
-    padding-left: 20px;
+.intro p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
 }
 
-li {
-    margin-bottom: 8px;
+.columns-info ul {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
 }
 
-code {
-    background-color: #f1f5f9;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: Courier, monospace;
+.columns-info li {
+    background: #f1f5f9;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border-left: 3px solid #cbd5e1;
+}
+
+.columns-info strong {
+    color: #0f172a;
+    font-family: monospace;
+}
+
+.meta {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.chart-wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+    margin: 25px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 350px;
+    overflow-x: auto;
+}
+
+.interpretation {
+    color: var(--text-muted);
+    margin-top: 20px;
+    font-size: 0.95rem;
+}
+
+.conclusion {
+    background-color: #f8fafc;
+    padding: 12px 16px;
+    border-left: 4px solid var(--primary);
+    border-radius: 0 6px 6px 0;
+    margin-top: 12px;
+    font-size: 0.95rem;
+}
+
+.general-conclusion {
+    background-color: var(--success-bg);
+    border: 1px solid var(--success-border);
+    border-left: 5px solid #16a34a;
+}
+
+.general-conclusion h2 {
+    color: var(--success-text);
+    border-bottom-color: var(--success-border);
+}
+
+.general-conclusion p {
+    color: #14532d;
+    font-size: 1.05rem;
 }
 
 hr {
     border: 0;
     height: 1px;
-    background: #e2e8f0;
+    background: var(--border);
     margin: 40px 0;
-}
-
-.meta, .interpretation, .conclusion {
-    font-size: 0.95rem;
-    margin: 10px 0;
-}
-
-.chart {
-    width: 100%;
-    margin: 25px auto;
-    display: flex;
-    justify-content: center;
-    background-color: #ffffff;
-}
-
-.general-conclusion {
-    background-color: #f0fdf4;
-    border-left: 4px solid #16a34a;
-}
-
-.general-conclusion h2 {
-    color: #166534;
-    border-bottom-color: #bbf7d0;
 }
