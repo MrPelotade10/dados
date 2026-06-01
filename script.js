@@ -26,12 +26,19 @@ const spec2 = {
   transform: [
     { aggregate: [{ op: "count", as: "total_jogos" }], groupby: ["Genre"] },
     { joinaggregate: [{ op: "sum", field: "total_jogos", as: "grand_total" }] },
-    { calculate: "datum.total_jogos / datum.grand_total", as: "porcentagem" }
+    { calculate: "datum.total_jogos / datum.grand_total", as: "porcentagem" },
+    { calculate: "datum.Genre + ' (' + format(datum.porcentagem, '.1%') + ')'", as: "legenda_customizada" }
   ],
   mark: { type: "arc", innerRadius: 60, stroke: "#1e293b" },
   encoding: {
     theta: { field: "total_jogos", type: "quantitative" },
-    color: { field: "Genre", type: "nominal", title: "Gêneros", scale: { scheme: "tableau20" } },
+    color: { 
+      field: "legenda_customizada", 
+      type: "nominal", 
+      title: "Gêneros (% do Total)", 
+      scale: { scheme: "tableau20" },
+      sort: { field: "total_jogos", order: "descending" }
+    },
     tooltip: [
       { field: "Genre", type: "nominal", title: "Gênero" },
       { field: "total_jogos", type: "quantitative", title: "Qtd de Jogos" },
